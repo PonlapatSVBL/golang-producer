@@ -4,6 +4,7 @@ import (
 	"log"
 	"reflect"
 
+	"github.com/PonlapatSVBL/golang-producer/database/mysql"
 	"github.com/PonlapatSVBL/golang-producer/models"
 	"github.com/PonlapatSVBL/golang-producer/utils"
 )
@@ -13,7 +14,7 @@ func GetEmployeeByServerId(serverId []string) ([]models.EmployeeStruct, error) {
 
 	query := "SELECT employee_id, employee_name FROM hms_api.comp_employee LIMIT 1,2"
 
-	rows, err := utils.DB.Query(query)
+	rows, err := mysql.DB.Query(query)
 	if err != nil {
 		return nil, err
 	}

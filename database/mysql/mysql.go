@@ -1,19 +1,21 @@
-package utils
+package mysql
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
 var (
-	DB *sql.DB
+	DB *sqlx.DB
+	// DB  *sql.DB
+	err error
 )
 
-func ConnectMysql() {
+func Connect() {
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	user := os.Getenv("DB_USER")
@@ -22,8 +24,12 @@ func ConnectMysql() {
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbname)
 
-	var err error
-	DB, err = sql.Open("mysql", dsn)
+	DB, err = sqlx.Connect("mysql", dsn)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	/* DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,5 +38,5 @@ func ConnectMysql() {
 	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
-	}
+	} */
 }
