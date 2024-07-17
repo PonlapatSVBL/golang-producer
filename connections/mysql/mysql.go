@@ -36,6 +36,13 @@ func NewMysql() *mysql {
 	return dbInstance
 }
 
+func (mysqlClient mysql) SqlGet(dest interface{}, query string) {
+	err := mysqlClient.db.Get(dest, query)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
 func (mysqlClient mysql) SqlList(dest interface{}, query string) {
 	err := mysqlClient.db.Select(dest, query)
 	if err != nil {
